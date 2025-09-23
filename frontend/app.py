@@ -142,8 +142,8 @@ def main():
             if health_response.status_code == 200:
                 health_data = health_response.json()
                 st.success("System is healthy")
-                st.write(f"**Qdrant Connected:** {'✅' if health_data['qdrant_connected'] else '❌'}")
-                st.write(f"**CLIP Model Loaded:** {'✅' if health_data['clip_model_loaded'] else '❌'}")
+                st.write(f"**Qdrant Connected:** {'Ok' if health_data['qdrant_connected'] else 'Not Ok'}")
+                st.write(f"**CLIP Model Loaded:** {'Ok' if health_data['clip_model_loaded'] else 'Not Ok'}")
             else:
                 st.error("API is not responding")
         except:
