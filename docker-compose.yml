@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_db
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+    networks:
+      - search_network
+    # Healthcheck block removed
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: search_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./data/images:/app/images:ro
+      - ./api:/app/api
+    networks:
+      - search_network
+    depends_on:
+      - qdrant # Condition removed, now it just waits for qdrant to start
+    # Healthcheck block removed
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: search_frontend
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+    networks:
+      - search_network
+    depends_on:
+      - api # Condition removed, now it just waits for api to start
+
+networks:
+  search_network:
+    driver: bridge
+
+volumes:
+  qdrant_storage:
+    driver: local
