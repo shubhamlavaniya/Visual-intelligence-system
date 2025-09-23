@@ -56,7 +56,7 @@ Follow these steps to get the application running locally.
 ### Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/shubhamlavaniya/Visual-intelligence-system.git
 cd visual-search-system
 ```
 
