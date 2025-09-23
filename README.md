@@ -62,6 +62,7 @@ cd visual-search-system
 
 ## Project Structure
 
+```bash
 visual-search-system/
 ├── docker-compose.yml         # Orchestrates all services
 ├── .env                       # Environment variable template
@@ -86,3 +87,4 @@ visual-search-system/
 └── data/                      # Local data
     └── images/                # image collection
     └── photos_url.csv         
+```
