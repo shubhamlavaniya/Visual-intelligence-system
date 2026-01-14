@@ -9,7 +9,7 @@ from typing import List
 
 from api.core.config import settings
 from api.core.models import SearchRequest, SearchResponse, SearchResult, HealthResponse
-from api.services.qdrant_client import qdrant_service
+from api.services.qdrant_service import qdrant_service
 from api.services.clip_client import clip_client
 from api.services.explanation_generator import explanation_generator
 
