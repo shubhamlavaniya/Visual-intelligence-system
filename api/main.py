@@ -72,7 +72,7 @@ async def search_images(request: SearchRequest):
         # Prepare results with explanations
         results = []
         for result in search_results:
-            image_id = result["id"]
+            image_id = str(result["id"])
             filename = result["payload"]["filename"]
             #image_path = os.path.join(settings.IMAGE_DIR, filename)
             

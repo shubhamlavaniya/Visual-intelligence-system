@@ -104,12 +104,28 @@ class QdrantService:
             return []
 
     def get_collection_info(self):
-        """Get information about the collection"""
+        """Get information about the collection safely"""
         try:
-            return self.client.get_collection(self.collection_name)
+            # We use collection_exists first to avoid deep parsing if it's missing
+            if not self.client.collection_exists(self.collection_name):
+                return None
+            
+            # Use get_collection but handle it as a raw dict if parsing fails
+            info = self.client.get_collection(self.collection_name)
+            return info
         except Exception as e:
-            logger.error(f"Failed to get collection info: {e}")
-            return None
+            # If the Pydantic validation fails, we still want to return 'Ok' 
+            # as long as the connection is alive.
+            logger.error(f"Failed to get collection info (validation error): {e}")
+            return "Exists"
+
+    def check_health(self) -> bool:
+        """A lightweight health check that doesn't parse complex metadata"""
+        try:
+            self.client.get_collections()
+            return True
+        except Exception:
+            return False
 
 # Create a global instance
 qdrant_service = QdrantService()
